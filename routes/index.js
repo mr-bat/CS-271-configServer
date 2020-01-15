@@ -6,7 +6,7 @@ const clients = [];
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.json(clients);
-  res.render('index', { title: 'Express' });
+  // res.render('index', { title: 'Express' });
 });
 
 router.post('/', function (req, res) {

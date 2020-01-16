@@ -3,10 +3,8 @@ var router = express.Router();
 
 const clients = [];
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   res.json(clients);
-  // res.render('index', { title: 'Express' });
 });
 
 router.post('/', function (req, res) {
@@ -14,6 +12,16 @@ router.post('/', function (req, res) {
   const { ip, port } = req.body;
   clients.push({ip, port});
   res.send("ok");
+});
+
+router.put('/', function (req, res) {
+  console.log(req.body);
+  const { ip, port } = req.body;
+  const ind = clients.find(e => e.ip === ip && e.port === port);
+  if (ind) {
+	clients.splice(ind, 1);
+  }
+  res.send("removed");
 });
 
 module.exports = router;

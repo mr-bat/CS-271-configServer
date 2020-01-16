@@ -10,7 +10,10 @@ router.get('/', function(req, res, next) {
 router.post('/', function (req, res) {
   console.log(req.body);
   const { ip, port } = req.body;
-  clients.push({ip, port});
+  const ind = clients.find(e => e.ip === ip && e.port === port);
+  if (!ind) {
+        clients.push({ip, port});
+  }
   res.send("ok");
 });
 

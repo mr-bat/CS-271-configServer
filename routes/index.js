@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const clients = [];
+module.export = clients;
 
 router.get('/', function(req, res, next) {
   res.json(clients);
@@ -27,4 +28,7 @@ router.put('/', function (req, res) {
   res.send("removed");
 });
 
-module.exports = router;
+module.exports = {
+  router,
+  getNumberOfClients: () => clients.length,
+};

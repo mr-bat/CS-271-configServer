@@ -1,0 +1,51 @@
+const { getNumberOfClients } = require('./index');
+var express = require('express');
+var router = express.Router();
+
+const blocks = [];
+
+const getBalance = (id) => {
+    const balance = {};
+
+    blocks.forEach(block => {
+        const { amount, from, to } = block;
+
+        balance[from] = (balance[from] || 0) - amount;
+        balance[to] = (balance[to] || 0) + amount;
+    });
+    console.log("balance:", balance);
+
+    return balance[id] + 10;
+};
+
+const addTransaction = (from = -1, to = -1, amount = -1) => {
+    // console.log("# of clients:", getNumberOfClients(), "from", from, "to", to, "amount", amount);
+    // console.log(from < 0, from >= getNumberOfClients(), to < 0, to >= getNumberOfClients(), amount < 0);
+
+    if (
+            (from < 0 || from >= getNumberOfClients()) ||
+            (to < 0 || to >= getNumberOfClients()) ||
+            (amount < 0)
+       )
+        return false;
+    if (getBalance(from) < amount)
+        return false;
+
+    blocks.push({ from, to, amount });
+    return true;
+};
+
+router.get('/', function(req, res) {
+    const { id } = req.body;
+    res.json({ id, amount: getBalance(id) || 0 });
+});
+
+router.post('/', function (req, res) {
+    const { from, to, amount } = req.body;
+    if (addTransaction(from, to, amount))
+        res.sendStatus(200);
+    else
+        res.sendStatus(400);
+});
+
+module.exports = router;

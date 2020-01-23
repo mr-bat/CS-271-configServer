@@ -19,12 +19,11 @@ const getBalance = (id) => {
 };
 
 const addTransaction = (from = -1, to = -1, amount = -1) => {
-    // console.log("# of clients:", getNumberOfClients(), "from", from, "to", to, "amount", amount);
-    // console.log(from < 0, from >= getNumberOfClients(), to < 0, to >= getNumberOfClients(), amount < 0);
+    console.log("# of clients:", getNumberOfClients(), "from", from, "to", to, "amount", amount);
 
     if (
-            (from < 0 || from >= getNumberOfClients()) ||
-            (to < 0 || to >= getNumberOfClients()) ||
+	(from <= 0 || from > getNumberOfClients()) ||
+	(to <= 0 || to > getNumberOfClients()) ||
             (amount < 0)
        )
         return false;
@@ -42,7 +41,7 @@ router.post('/balance/', function(req, res) {
 
 router.post('/new/', function (req, res) {
     const { from, to, amount } = req.body;
-    if (addTransaction(from, to, amount))
+    if (addTransaction(parseInt(from), parseInt(to), parseInt(amount)))
         res.sendStatus(200);
     else
         res.sendStatus(400);

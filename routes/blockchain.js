@@ -36,12 +36,16 @@ const addTransaction = (from = -1, to = -1, amount = -1) => {
 
 router.post('/balance/', function(req, res) {
     const { id } = req.body;
-    res.json({ id, amount: (getBalance(id) || 0).toString() });
+    res.json({ id, amount: (getBalance(id) || 10).toString() });
 });
 
 router.post('/new/', function (req, res) {
     const { from, to, amount } = req.body;
-    if (addTransaction(parseInt(from), parseInt(to), parseInt(amount)))
+    console.log(getBalance(from));
+    const status = addTransaction(parseInt(from), parseInt(to), parseInt(amount));
+    console.log(getBalance(from));
+
+    if (status)
         res.sendStatus(200);
     else
         res.sendStatus(400);

@@ -48,4 +48,9 @@ router.post('/new/', function (req, res) {
         res.sendStatus(400);
 });
 
+router.post('/reset/', function (req, res) {
+    blocks.splice(0);
+    res.sendStatus(200);
+});
+
 module.exports = router;

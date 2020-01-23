@@ -37,7 +37,7 @@ const addTransaction = (from = -1, to = -1, amount = -1) => {
 
 router.post('/balance/', function(req, res) {
     const { id } = req.body;
-    res.json({ id, amount: getBalance(id) || 0 });
+    res.json({ id, amount: (getBalance(id) || 0).toString() });
 });
 
 router.post('/new/', function (req, res) {

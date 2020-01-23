@@ -35,12 +35,12 @@ const addTransaction = (from = -1, to = -1, amount = -1) => {
     return true;
 };
 
-router.get('/', function(req, res) {
+router.post('/balance/', function(req, res) {
     const { id } = req.body;
     res.json({ id, amount: getBalance(id) || 0 });
 });
 
-router.post('/', function (req, res) {
+router.post('/new/', function (req, res) {
     const { from, to, amount } = req.body;
     if (addTransaction(from, to, amount))
         res.sendStatus(200);
